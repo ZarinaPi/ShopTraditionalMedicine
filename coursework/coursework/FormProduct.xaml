@@ -1,0 +1,33 @@
+﻿<Window x:Class="coursework.FormProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:coursework"
+        mc:Ignorable="d"
+        Title="FormProduct" Height="300" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Content="Название" FontSize="18" Margin="5"/>
+            <Label Content="Количество" FontSize="18" Margin="5"/>
+            <Label Content="Единица измерения" FontSize="18" Margin="5"/>
+            <Label Content="Цена за ед. товара" FontSize="18" Margin="5"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <TextBox Text="{Binding NameProduct}" x:Name="tbNameProduct" FontSize="18" Margin="5"></TextBox>
+            <TextBox Text="{Binding QuantityProduct}" x:Name="tbQuantityProduct" FontSize="18" Margin="5"></TextBox>
+            <TextBox ToolTip="Введите число от 1 до 3, где 1 - упаковка, 2 - шт, 3 - флакон!" 
+                     Text="{Binding IdUnitProduct}" 
+                     x:Name="tbIdUnitProduct" 
+                     FontSize="18" 
+                     Margin="5"
+                     PreviewTextInput="tbIdUnitProduct_PreviewTextInput"></TextBox>
+            <TextBox Text="{Binding PriceProduct}" x:Name="tbPriceProduct" FontSize="18" Margin="5"></TextBox>
+            <Button x:Name="btnSave" Content="Сохранить" Click="btnSave_Click" Margin="5"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
