@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace coursework
 {
@@ -40,18 +29,9 @@ namespace coursework
             {
                 if (auth != null)
                 {
-                    if (auth.Role == "администратор")
-                    {
-                        AdminPanel adminPanel = new();
-                        this.Visibility = Visibility.Hidden;
-                        adminPanel.Show();
-                    }
-                    else if (auth.Role == "продавец")
-                    {
-                        SellerPanel sellerPanel = new();
-                        this.Visibility = Visibility.Hidden;
-                        sellerPanel.Show();
-                    }
+                    Window panel = auth.Role == "администратор" ? (Window)new AdminPanel() : new SellerPanel();
+                    this.Visibility = Visibility.Hidden;
+                    panel.Show();
                 }
                 else
                 {

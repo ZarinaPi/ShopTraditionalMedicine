@@ -52,13 +52,6 @@
                             VerticalAlignment="Center"
                             x:Name="DeleteProduct" Click="DeleteProduct_Click">
                         </Button>
-                        <!--<Button Content="Редактировать информацию"
-                            Margin="5"
-                            Width="auto"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            x:Name="UpdateProduct" Click="UpdateProduct_Click">
-                        </Button>-->
                         <Button Content="Обновить данные таблицы"
                             Margin="5"
                             Width="auto"

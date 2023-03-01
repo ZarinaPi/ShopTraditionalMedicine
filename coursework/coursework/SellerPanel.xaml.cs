@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace coursework
 {
@@ -25,22 +15,28 @@ namespace coursework
         public SellerPanel()
         {
             InitializeComponent();
-            OrderDG.ItemsSource = shopContext.GetContext().OrdersVs.ToList();
+            OrderDG.ItemsSource = _context.OrdersVs.ToList();
+        }
+
+        private void UpdateProductDG()
+        {
+            ProductDG.ItemsSource = _context.ProductsVs.ToList();
+        }
+
+        private void ShowOtherWindow(Window window)
+        {
+            this.Visibility = Visibility.Hidden;
+            window.Show();
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new();
-            this.Visibility = Visibility.Hidden;
-            mainWindow.Show();
+            ShowOtherWindow(new MainWindow());
         }
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            //FormProduct formProduct = new(null);
-            FormProduct formProduct = new();
-            this.Visibility = Visibility.Hidden;
-            formProduct.Show();
+            ShowOtherWindow(new FormProduct());
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
@@ -49,44 +45,35 @@ namespace coursework
             var productsForRemoving = ProductDG.SelectedItems.Cast<Product>().ToList();
 
             if (MessageBox.Show($"Вы точно хотите удалить {productsForRemoving.Count()} элементов?", "Внимание",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes);
-            try
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                shopContext.GetContext().Products.RemoveRange(productsForRemoving);
-                shopContext.GetContext().SaveChanges();
-                MessageBox.Show("Данные удалены!");
-
-                ProductDG.ItemsSource = shopContext.GetContext().ProductsVs.ToList();
+                try
+                {
+                    _context.Products.RemoveRange(productsForRemoving);
+                    _context.SaveChanges();
+                    MessageBox.Show("Данные удалены!");
+                    UpdateProductDG();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
             }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
-        }
-
-        private void ReadProduct_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if(Visibility == Visibility.Visible)
             {
-                shopContext.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-                ProductDG.ItemsSource = shopContext.GetContext().ProductsVs.ToList();
+                _context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                UpdateProductDG();
             }
         }
 
         
         private void btnUpdateProduct_Click(object sender, RoutedEventArgs e)
         {
-
-            //FormProduct formProduct = new((sender as Button).DataContext as Product);
-            FormProduct formProduct = new();
-            //formProduct.ShowDialog();
-            this.Visibility = Visibility.Hidden;
-            formProduct.Show();
+            ShowOtherWindow(new FormProduct());
         }
     }
 }
